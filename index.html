@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FIRE MAX</title>
+<style>
+body{
+ margin:0;
+ background:#080e1c;
+ color:white;
+ font-family:Arial;
+ text-align:center;
+}
+.logo{
+ color:#ffca28;
+ font-size:38px;
+ font-weight:bold;
+ margin:30px 0;
+ text-shadow:2px 3px red;
+}
+.box{
+ background:#17243a;
+ padding:25px;
+ margin:20px;
+ border-radius:15px;
+}
+input{
+ padding:14px;
+ width:85%;
+ margin:10px;
+ border-radius:8px;
+ border:0;
+}
+button{
+ background:#ffca28;
+ color:black;
+ padding:14px 25px;
+ border:0;
+ border-radius:8px;
+ font-weight:bold;
+ margin:8px;
+}
+#lobby,#game{display:none}
+#arena{
+ background:linear-gradient(#58b9e8,#70a84b);
+ height:65vh;
+ position:relative;
+ overflow:hidden;
+}
+#player{
+ font-size:65px;
+ position:absolute;
+ left:45%;
+ top:55%;
+}
+#target{
+ font-size:35px;
+ position:absolute;
+ left:70%;
+ top:25%;
+}
+.controls button{background:#ffca28}
+</style>
+</head>
+<body>
+
+<div id="start">
+ <h2>RK INTERACTIVE</h2>
+ <div class="logo">FIRE MAX</div>
+ <h3>BATTLE • SURVIVE • WIN</h3>
+
+ <div class="box">
+  <h2>CREATE ACCOUNT</h2>
+  <input id="name" placeholder="Player Name">
+  <input id="password" type="password"
+  placeholder="Create Password">
+  <br>
+  <button onclick="create()">CREATE ACCOUNT</button>
+  <br>
+  <button onclick="guest()">PLAY AS GUEST</button>
+ </div>
+</div>
+
+<div id="lobby">
+ <div class="logo">FIRE MAX</div>
+ <h2>WELCOME TO LOBBY</h2>
+ <h3 id="playername"></h3>
+ <div class="box">
+  🦸
+  <h2>YOUR CHARACTER</h2>
+  <p>LEVEL 1</p>
+  <button onclick="startGame()">START GAME ▶</button>
+ </div>
+</div>
+
+<div id="game">
+ <div class="logo">FIRE MAX</div>
+ <div id="arena">
+  <div id="target">🎯</div>
+  <div id="player">🦸</div>
+ </div>
+ <div class="controls">
+  <button onclick="move(-20)">⬅️</button>
+  <button onclick="move(20)">➡️</button>
+  <button onclick="hit()">TAG</button>
+  <button onclick="back()">LOBBY</button>
+ </div>
+ <h3 id="score">Targets: 0/5</h3>
+</div>
+
+<script>
+let points=0;
+let position=45;
+
+function create(){
+ let n=document.getElementById("name").value;
+ let p=document.getElementById("password").value;
+ if(!n || p.length<4){
+  alert("Enter name and password (4 characters minimum)");
+  return;
+ }
+ enter(n);
+}
+
+function guest(){
+ enter("Guest Player");
+}
+
+function enter(n){
+ document.getElementById("playername").innerText=n;
+ document.getElementById("start").style.display="none";
+ document.getElementById("lobby").style.display="block";
+}
+
+function startGame(){
+ document.getElementById("lobby").style.display="none";
+ document.getElementById("game").style.display="block";
+}
+
+function move(x){
+ position=Math.max(0,Math.min(90,position+x/5));
+ document.getElementById("player").style.left=position+"%";
+}
+
+function hit(){
+ if(points<5){
+  points++;
+  document.getElementById("score").innerText=
+  "Targets: "+points+"/5";
+  document.getElementById("target").style.left=
+  (10+Math.random()*75)+"%";
+ }
+ if(points===5) alert("BOOYAH! YOU WIN!");
+}
+
+function back(){
+ document.getElementById("game").style.display="none";
+ document.getElementById("lobby").style.display="block";
+}
+</script>
+
+</body>
+</html>
